@@ -1,0 +1,122 @@
+﻿* JOIN * 
+
+
+
+-----join의 구분 기준-----
+
+Equi join - 동일 칼럼 기준
+
+Non-Equi join - 동일 칼럼 없이 다른 조건 기준
+
+Outer join - 조인 조건이 상관 없음
+
+Self join - 한 테이블내에서 조인
+
+
+
+-Cross JOIN (교차결합)
+모든 레코드들을 맵핑하는것
+table A = 10 , table B = 5
+Cross JOIN 시 50개의 레코드 출력
+
+
+
+ex)
+
+Select [컬럼명] from [테이블1] Cross join [테이블2];
+
+
+
+-Inner JOIN (내부결합)
+테이블 간의 지정 컬럼값과 일치하는 레코드만 출력
+
+일반 조인과 다른 점: ,(콤마) -> Inner Join , Where -> On 사용
+
+Inner Join 생략 가능하며, 값이 없는 레코드는 생략됨
+
+
+
+ex)
+
+select b.[컬럼1], b.[컬럼2] from [테이블1] a INNER JOIN [테이블2] b
+
+on a.[컬럼] = b.[컬럼];
+
+=
+
+select b.[컬럼1], b.[컬럼2] from [테이블1] a , [테이블2] b
+
+where a.[컬럼] = b.[컬럼];
+
+
+
+위의 2개의 SQL문은 같은 결과값임
+
+
+
+-Outer JOIN (외부결합)
+Inner JOIN과 똑같이 조건에 만족하는 레코드를 출력
+하지만, 일치하지 않는 레코드들도 함께 출력
+데이터를 출력하는 테이블 위치에 따라
+Left Outer JOIN = Join 기준으로 왼쪽은 모두 출력, 오른쪽 테이블은 왼쪽과 같은 값(교집합)의 값만 출력
+
+Right Outer JOIN = Left Outer Join과 기준이 되는 테이블이 반대
+
+
+
+(Left or Right)의 데이터 + 서로 Join한 테이블의 같은 값(교집합)
+
+
+두개의 테이블 모두 기본 출력하는 Full Outer JOIN(완전외부결합)
+
+& 정상적인 Join 조건에 만족하지 않는 값도 볼 경우에는 연산자 "(+)" 사용
+
+<< Join 시킬 값이 없는 Join 측에 "(+)" 위치 
+
+<< 다른 조건절이 들어와도 똑같이 연산자가 위치 하여야함
+
+   ex)
+
+select [컬럼] from [테이블1] LEFT OUTER JOIN [테이블2]
+
+        ON [테이블1].[컬럼] = [테이블2].[컬럼]
+
+​
+
+Left <-> Right, Full 전부 Left 대신 넣으면 사용 가능
+
+* MySQL에서는 Full Outer Join가 없으므로, Left Outer Join과 Right Outer Join을 서로 UNION하는 식으로 만들어줘야함
+
+
+
+
+
+-Self Join
+Table Alias 통하여서 테이블 내의 컬럼을 각각의 테이블인 것처럼 사용하여 조인하는 것
+(Self라는 말 그대로 '자기 자신'을 조인하는 것)
+
+
+
+ex)
+
+select [별칭1].[컬럼1] as [컬럼명1], [별칭2],[컬럼2] as [컬럼명2] from [테이블1] [별칭1], [테이블1] [별칭2]
+
+where [별칭1].[같은컬럼] = [별칭2].[같은컬럼]
+
+뒤에 조건문 추가시, 조건에 맞는 셀을 검색하여, 컬럼명1,2로 이름이 바뀐 컬럼1,2 출력​ 
+
+
+
+- 3개 이상의 테이블 Join시
+
+1번 테이블과 2번 테이블 Join -> 첫번째 Join결과와 3번째 테이블 Join
+
+ex)
+
+select [출력시킬컬럼] from [테이블1] (Join문) [테이블2]
+
+on (테이블1과 2의 공통된 컬럼 비교문)
+
+(Join문) [테이블3]
+
+on (테이블1과 3의 공통된 컬럼 비교문)
