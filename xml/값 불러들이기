@@ -1,0 +1,60 @@
+Sub ボタン1_Click()
+
+Worksheets(2).Activate
+
+Dim rng As Range
+Dim T As Variant
+Dim SPath As String
+Dim FN As Integer
+
+FN = FreeFile
+SPath = "C:\tmp\DB定義書_test" & "\"
+
+Open "C:\tmp\" & "DML_Test.txt" For Output As #FN
+
+Set rng = ActiveSheet.UsedRange
+
+T = "INSERT INTO " & Cells(2, 3).Value & "("
+
+Print #FN, T
+
+Dim RowsCnt, ColsCnt As Long
+Dim i, j As Long
+Dim D, E, F As Long
+Dim Var()
+
+RowsCnt = rng.Rows.Count
+ColsCnt = rng.Columns.Count
+ReDim Var(1 To RowsCnt, 1 To ColsCnt)
+
+D = 3
+Do
+    i = i + 1
+    D = D + 1
+    For E = 1 To ColsCnt
+    Var(i, E) = Cells(D, E + 1).Value
+    Next E
+Loop While D < 16
+
+Print #FN, Var(1, 1) & "," & Var(1, 2) & "," & Var(1, 3) & "," & Var(1, 4) & "," & Var(1, 5) & "," & Var(1, 6) & "," & Var(1, 7) & "," & Var(1, 8) & "," & Var(1, 9) & "," & Var(1, 10)
+'データのタイトル
+
+Print #FN, ") Values("
+
+F = 1
+E = 1
+Do
+    Print #FN, Var(F + 1, E) & "," & Var(F + 1, E + 1) & "," & Var(F + 1, E + 2) & "," & Var(F + 1, E + 3) & "," & Var(F + 1, E + 4) & "," & Var(F + 1, E + 5) & "," & Var(F + 1, E + 6) & "," & Var(F + 1, E + 7) & "," & Var(F + 1, E + 8) & "," & Var(F + 1, E + 9)
+    F = F + 1
+Loop While F < 11
+'データ
+
+Print #FN, ");"
+
+Close #FN
+
+MsgBox "DML文の作成が完了しました。"
+
+Worksheets(3).Activate
+
+End Sub
