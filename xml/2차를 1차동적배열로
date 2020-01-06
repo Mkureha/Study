@@ -1,0 +1,45 @@
+Sub 배열연습2()
+
+Worksheets(1).Activate
+
+Dim rng As Range
+Dim RowsCnt, ColsCnt As Long
+Dim i, j As Long
+Dim A, B, C As Long
+Dim Var()
+Dim Var2()
+
+Set rng = ActiveSheet.UsedRange
+RowsCnt = rng.Rows.Count
+ColsCnt = rng.Columns.Count
+
+ReDim Var(1 To RowsCnt, 1 To ColsCnt)
+ReDim Var2(1 To RowsCnt)
+
+For A = 5 To RowsCnt
+
+Cells(A, 5).Replace "O", "NOT NULL", xlWhole
+Cells(A, 5).Replace "", "NULL", xlWhole
+    i = i + 1
+    For B = 1 To ColsCnt
+    Var(i, B) = Cells(A, B + 1).Value
+    Next B
+   
+Cells(A, 5).Replace "NULL", "", xlWhole
+Cells(A, 5).Replace "NOT NULL", "O", xlWhole
+Next A
+
+For C = 1 To RowsCnt
+
+If Var(C, 5) = "갴" Then
+j = j + 1
+Var2(j) = Var(C, B - 5)
+End If
+
+Next C
+
+MsgBox "PRIMARY KEY (" & Var2(1) & "," & Var2(2) & ")"
+
+Worksheets(2).Activate
+
+End Sub
