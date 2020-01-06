@@ -1,0 +1,48 @@
+DQL (Date  Query Language) - SELECT
+
+
+
+DML(Date Multiplation Language) - INSERT , UPDATE , DELETE
+
+
+
+DCL ( Date Control Language) - GRANT , REVOKE
+
+
+
+DDL (Date Definition Language) - CREATE , ALTER , DROP , RENAME , TRUNCATE
+
+
+
+TCL (Transaction Control Language) - COMMIT , ROLLBACK
+
+
+
+* UPDATE / DELETE 의 경우는 TCL 하기 전까지는 데이터가 보존되어있음
+
+
+
+​DELETE = 특정 조건에 맞는 데이터를 지울수 있음
+
+(WHERE 을 사용)
+
+
+
+TRUNCATE = 테이블 전체를 삭제
+
+
+
+* DELETE 의 경우 삭제 후 삭제한 데이터의 공간이 '빈 공간'으로 형성
+
+이후 데이터는 데이터 공간 이후부터 적재됨
+
+
+
+
+
+GRANT = 권한 부여 명령어
+
+
+
+REVOKE = 권한 반환 명령어
+
