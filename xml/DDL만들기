@@ -1,0 +1,123 @@
+Option Explicit
+Sub ボタン２_Click()
+
+Worksheets(1).Activate
+
+Dim PK() As Variant
+Dim rng As Range
+Dim SPath As String
+Dim A, B, C, T As Variant
+Dim IRow, FN As Integer
+
+FN = FreeFile
+SPath = "(불러올 파일경로)" & "\"
+
+Open "(경로)" & "(저장파일 이름).txt" For Output As #FN
+
+Set rng = ActiveSheet.UsedRange
+T = "Create table " & Cells(2, 3).Value & "("
+
+Print #FN, T
+
+For IRow = 5 To rng.Rows.Count
+
+Cells(IRow, 5).Replace "O", "NOT NULL", xlWhole
+Cells(IRow, 5).Replace "", "NULL", xlWhole
+
+A = Cells(IRow, 2).Value & " " & Cells(IRow, 3).Value & "(" & Cells(IRow, 4).Value & ") " & Cells(IRow, 5).Value & ","
+
+Print #FN, A
+
+Next IRow
+   
+B = Cells(14, 2).Value & " " & Cells(14, 3).Value
+   
+Print #FN, B
+
+Dim RowsCnt, ColsCnt As Long
+Dim i, j As Long
+Dim D, E, F As Long
+Dim Var()
+Dim Var2()
+
+RowsCnt = rng.Rows.Count
+ColsCnt = rng.Columns.Count
+
+ReDim Var(1 To RowsCnt, 1 To ColsCnt)
+ReDim Var2(1 To RowsCnt)
+
+For D = 5 To RowsCnt
+
+    i = i + 1
+    For E = 1 To ColsCnt
+    Var(i, E) = Cells(D, E + 1).Value
+    Next E
+   
+Cells(D, 5).Replace "NULL", "", xlWhole
+Cells(D, 5).Replace "NOT NULL", "O", xlWhole
+Next D
+
+For F = 1 To RowsCnt
+
+If Var(F, 5) = "O" Then
+j = j + 1
+Var2(j) = Var(F, E - 5)
+End If
+
+Next F
+
+Print #FN, "PRIMARY KEY (" & Var2(1) & "," & Var2(2) & ")"
+
+Print #FN, ");"
+
+Close #FN
+
+MsgBox "DDL文作成が完了しました。"
+
+Worksheets(2).Activate
+
+End Sub
+
+
+
+----------------
+
+
+
+*간단 설명*
+
+
+
+(파일경로)의 경우는 본인이 어느 데이터를 뽑아 올지에 대한 경로
+
+(경로) 저장될 경로 위치, (저장파일이름)은 저장될 파일이름
+
+
+
+선택영역은 데이터가 있는 셀 범위 전체 선택(시트 전체 아님)
+
+2행 3열의 셀(C2)의 셀값이 DB의 타이틀로 지정됨
+
+5번째 행부터 데이터를 받음
+
+데이터 입력 받기전 NULL여부에 O가 되있을 경우 NOT NULL로 인식, 공백은 NULL로 인식
+
+(칼럼명, 속성, 문자수, (NULL여부, PK키 설정))<< 범위는 여기서 바꾸며 오류 발생ㅠㅠ
+
+
+
+이후 2차 동적 배열을 사용하여 행 별로 데이터를 추출함
+
+(한 행씩 추출)
+
+2차 동적 배열을 기반으로 하여 PK키 열에 O가 되있을 경우 PK로 인식하여서
+
+2개까지는 PK키를 추출하여 입력
+
+후
+
+완료 됐을 시
+
+'DDL문 작성이 완료되었습니다' 팝업창 띄우고 확인 누르면
+
+다시 원래 시트의 2번째 창으로 돌아옴
