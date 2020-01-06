@@ -1,0 +1,65 @@
+​- 테이블 만들기
+
+CREATE TABLE [테이블명]([컬럼명] [데이터타입]([사이즈]) {NULL or NOT NULL});
+
+*{NULL or NOT NULL} 입력 안할시 기본값은 NULL입력 허용
+
+
+
+- 테이블에 값 넣기
+
+INSERT INTO [테이블명]{[컬럼명]}VALUES([각 컬럼에 들어갈 값]);
+
+*컬럼명 생략시에는 각 컬럼의 값을 모두 넣어야함
+
+[각 컬럼에들어갈 값]의 수와 테이블 컬럼 수 일치하지 않을시 에러 발생​
+
+
+
+- 한번에 값 넣기
+
+INSERT ALL
+
+INTO [테이블명] VALUES([1번째 행 입력])
+
+INTO [테이블명] VALUES([2번째 행 입력])
+
+...
+
+INTO [테이블명] VALUES([마지막 행 입력])
+
+SELECT * FROM DUAL;
+
+**마지막 문에 'SELECT * FROM DUAL;은 필수로 입력할것**
+
+
+
+
+
+​- 테이블 확인(컬럼별 속성 및 NULL여부까지)
+
+DESC [테이블 이름]
+
+​ 
+
+- 컬럼 추가
+
+ALTER TABLE [테이블명] ADD([컬럼명] [데이터타입]([사이즈]));
+
+
+
+- 컬럼 내용(정보) 수정
+
+ALTER TABLE [테이블명] MODIFY ([컬럼명] [데이터타입]([사이즈]));
+
+
+
+- 컬럼 삭제하기
+
+ALTER TABLE [테이블명] DROP COLUMN [컬럼명]
+
+
+
+- 컬럼 이름 변경
+
+ALTER TABLE [테이블명] RENAME COLUMN [원래컬럼명] to [바꿀컬럼명];
