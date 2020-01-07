@@ -1,121 +1,58 @@
 -용어 정리-
 
-
-
 DECODE : 조건을 설정하여 조건 별 값으로 변환
 
-
-
 CASE문 : 복수의 스테이트먼트를 구성하여서, 평가를 진행
-
         평가의 횟수는 1회 혹은 여러번 실행(간단한 CASE문의 경우는 1회만 평가)
-
-
 
 ROWID : 정보에 대한 고유값(키)
 
-
-
 ROWNUM : 결과에 대한 번호 부여(순서대로 부여)
 
-
-
 !!**차이점**!!
-
 ROWID
-
 1.정보에 대한 고유 값이므로 수정 불가
-
 2.4개의 부분으로 구성되있음
-
 >>6자리(객체번호), 3자리(파일번호), 6자리(블록번호), 3자리(슬롯 번호)
-
 ROWNUM
-
 1. 결과의 순서에대한 번호 부여
-
-
-
-​ 
 
 -수식 사용-
 
-
-
 DECODE ( [조건검색할컬럼] , [조건1] [ , 조건1에대한결과, 조건2, 조건2에대한결과 ... ] ) 
-
-
-
-[조건검색할컬럼]에 [조건]과 맞는지 여부 판단하여 [조건에대한결과] 출력
-
-
+>조건검색할컬럼]에 [조건]과 맞는지 여부 판단하여 [조건에대한결과] 출력
 
 SELECT DECODE(num, 1, SYSDATE, 2, 'TWO', 3, NULL, 'UNKNOWN') from xxx;
-
-
-
-xxx의 테이블에서 num의 값이 1일 경우 SYSDATE, 2일 경우 TWO, 3일경우 NULL, 어떠한경우 포함되지 않을경우 UNKNOWN을 출력
-
-
+>xx의 테이블에서 num의 값이 1일 경우 SYSDATE, 2일 경우 TWO, 3일경우 NULL, 어떠한경우 포함되지 않을경우 UNKNOWN을 출력
 
 예시)
+1. select char DECODE(A, B, 'T')
+     from char_sample;
+<A의 값이 B일때 T 출력
+2. select char DECODE(A, B, 'T', 'F')
+     from char_sample;
+<A의 값이 B일떄 T 출력, 그외는 F출력
+3. select char DECODE(A, B, 'T', C, 'F', 'X')
+     from char_sample;
+<A의 값이 B일때 T, C일떄 F, 그외 X
 
-1. select char DECODE(A, B, 'T') from char_sample;             <A의 값이 B일때 T 출력
-
-2. select char DECODE(A, B, 'T', 'F') from char_sample;         <A의 값이 B일떄 T 출력, 그외는 F출력
-
-3. select char DECODE(A, B, 'T', C, 'F', 'X') from char_sample; <A의 값이 B일때 T, C일떄 F, 그외 X
-
-
-
-
-
-SELECT
-
-  2    "支社番号",                                        <검색할 칼럼
-
-  3    CASE "支社番号"                                 <조건을 검색할 칼럼(=검색할 칼럼)
-
-  4      WHEN 'A1' THEN '東京'                      <조건1 : A1일때 東京
-
-  5      WHEN 'A2' THEN '静岡'                      <조건2 : A2일때 静岡
-
-  6      ELSE 'その他'                                   <조건3 : 그외일때 その他
-
-  7    END "支店名称"                                  <end 종료 및 支店名称칼럼에 출력
-
-  8  FROM test."支店別店員別販売情報";          <test계정에 支店別店員別販売情報 테이블에서 검색
-
-
-
+  1 SELECT "支社番号"                    <검색할 칼럼
+  2       ,CASE "支社番号"               <조건을 검색할 칼럼(=검색할 칼럼)
+  3             WHEN 'A1' THEN '東京'    <조건1 : A1일때 東京
+  4             WHEN 'A2' THEN '静岡'    <조건2 : A2일때 静岡
+  5             ELSE 'その他'            <조건3 : 그외일때 その他
+  6             END "支店名称"           <end 종료 및 支店名称칼럼에 출력
+  7   FROM test."支店別店員別販売情報";   <test계정에 支店別店員別販売情報 테이블에서 검색
 (검색하였을 경우에는 case식 과 case문 두가지가 있었음
-
 case식의 경우는 end로 종료, case문의 경우는 end case로 종료)
 
-
-
-SELECT
-
- CASE 
-
- WHEN EXPR_SEQ.NEXTVAL = 2 THEN '弐'
-
- WHEN EXPR_SEQ.NEXTVAL = 3 THEN '参'
-
- WHEN EXPR_SEQ.NEXTVAL = 1 THEN '壱'
-
- ELSE 'それ以外' END "NEXTVAL"
-
-FROM DUAL ;
-
-
-
-EXPR_SEQ테이블의 NEXTVAL의 값이 2인 경우 '弐'로 출력
-
-3인 경우 '参'으로 출력
-
-1인 경우 '壱'로 출력
-
-그외에는 'それ以外'로 출력
-
-NEXTVAL의 칼럼에 출력
+SELECT CASE WHEN EXPR_SEQ.NEXTVAL = 2 THEN '弐'
+            WHEN EXPR_SEQ.NEXTVAL = 3 THEN '参'
+            WHEN EXPR_SEQ.NEXTVAL = 1 THEN '壱'
+            ELSE 'それ以外' END "NEXTVAL"
+  FROM DUAL ;
+>EXPR_SEQ테이블의 NEXTVAL의 값이 2인 경우 '弐'로 출력
+>3인 경우 '参'으로 출력
+>1인 경우 '壱'로 출력
+>그외에는 'それ以外'로 출력
+>NEXTVAL의 칼럼에 출력
