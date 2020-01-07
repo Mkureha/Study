@@ -1,145 +1,94 @@
 -용어 정리
 
-
-
 UNION , UNION ALL
-
 2개의 select문을 하나로 조합해주는 집합연산자(같은 그룹의 테이블 형이 아니면 결합 불가능)
-
 *차이점
-
 UNION : 중복된 행이 있는 경우 중복행을 삭제하고 결과를 냄(중복데이터 없음)
-
 UNION ALL : 중복된 내용도 결과를 냄(중복데이터 있음)
 
-
-
 MINUS
-
 복수의 select문을 하나로 조합해주는 집합연산자(중복데이터를 하나로 만듬)
 
-
-
 INTERSECT
-
 복수의 select 문을 하나로 조합해주는 집합연산자(중복없는 집합)
 
 
-
 *-간단정리-*
-
 UNION = 합집합
-
-
-
 UNION ALL = 합집합 (중복 허용)
-
-
-
 MINUS = 차집합
-
-
-
 INSTERSECT = 교집합
-
-
 
 -수식 사용
 
-
-
 *UNION ALL(중복데이터 있음)
-
-SELECT 1, 2 FROM DUAL
-
-UNION ALL
-
-SELECT 1, 2 FROM DUAL;
+SELECT 1
+      ,2
+  FROM DUAL
+ UNION ALL
+SELECT 1
+      ,2
+  FROM DUAL;
 
          1          2
-
 ---------- ----------
-
          1          2
-
-                                                        1          2               <중복된 데이터도 출력
-
-
+         1          2               <중복된 데이터도 출력
 
 *UNION(중복데이터 없음)
 
-
-
-SELECT 1, 2 FROM DUAL
-
-UNION
-
-SELECT 1, 2 FROM DUAL;
+SELECT 1
+      ,2
+  FROM DUAL
+ UNION
+SELECT 1
+      ,2
+  FROM DUAL;
 
          1          2
-
 ---------- ----------
-
-                                                     1           2      <중복데이터를 하나로 합침
-
-
+         1          2      <중복데이터를 하나로 합침
 
 * UNION과 ORDER BY 순서 
-
-SELECT ... FROM ... [WHERE...] [GROUP BY] [HAVING]
-
+SELECT ...
+  FROM ...
+[WHERE...]
+[GROUP BY]
+[HAVING]
 [UNION] の次に [ORDER BY] となる
 
 
-
-
-
-
-
 * MINUS
+SELECT 1
+      ,2
+  FROM DUAL
+ UNION
+SELECT 2
+      ,3
+  FROM DUAL     <<1차로 UNION 실행
+ MINUS
+SELECT 1
+      ,2
+  FROM DUAL;   <<2차로 MINUS 집합연산자 실행
 
-
-
-SELECT 1, 2 FROM DUAL
-
-UNION
-
-SELECT 2, 3 FROM DUAL     <<1차로 UNION 실행
-
-MINUS
-
-SELECT 1, 2 FROM DUAL;   <<2차로 MINUS 집합연산자 실행
-
- 
-
-                                                          1          2           < 중복데이터를 하나로 만듬
-
+         1          2           < 중복데이터를 하나로 만듬
 ---------- ----------
-
          2          3
-
-
-
-
 
 * INTERSECT
 
-
-
-SELECT 1, 2 FROM DUAL
-
-UNION
-
-SELECT 2, 3 FROM DUAL     <<1차로 UNION 실행
-
+SELECT 1
+      ,2
+  FROM DUAL 
+ UNION
+SELECT 2
+      ,3
+  FROM DUAL     <<1차로 UNION 실행
 INTERSECT
-
-SELECT 1, 2 FROM DUAL;   <<2차로 MINUS 집합연산자 실행
-
- 
+SELECT 1
+      ,2
+  FROM DUAL;   <<2차로 INTERSECT 집합연산자 실행
 
          1          2
-
 ---------- ----------
-
          1          2
