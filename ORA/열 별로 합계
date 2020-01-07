@@ -1,81 +1,58 @@
 - 함수 사용 법
 
-
-
 * sum() over()
-select [표시될칼럼], sum([누계합할 컬럼명]) over([partition by 분류할 컬럼][order by 정렬할 기준 컬럼])
-from [테이블명];
-
-
+select [표시될칼럼]
+      ,sum([누계합할 컬럼명]) over([partition by 분류할 컬럼][order by 정렬할 기준 컬럼])
+ from [테이블명];
 
 * self join
-select [별칭1].[칼럼1], [별칭2].[칼럼2] from [테이블명] [별칭1], [테이블명] [별칭2]
-
-​
-
+select [별칭1].[칼럼1]
+      ,[별칭2].[칼럼2]
+  from [테이블명] [별칭1]
+      ,[테이블명] [별칭2]
+      
 - 누계구하는 함수(방법은 두가지 적혀있음)
-
-
-
 - 아래 문 실습전 준비사항
-
 Create table [테이블명]([컬럼명]);
 
-
-
 Insert all
-
-into sample value([값1])
-
-into sample value([값2])
-
-...
-
-into sample value([값N])
-
+  into sample value([값1])
+  into sample value([값2])
+   ...
+  into sample value([값N])
 select * from dual;
 
-
-
 table name : [테이블명]
-
 value
-
 [컬럼명]
-
 [값1]
-
 [값2]
-
 ...
-
 [값N]
-
-
-
 
 
 *subselect(오름차순으로 정렬)
 select [별칭1].[컬럼명]
-,(select sum([별칭2].[컬렴명]) from [테이블명] [별칭2] where [별칭2].[컬럼명] <= [별칭1].[컬럼명]) as [출력컬렴]
-from [테이블명] [별칭2];
-
-
+      ,(select sum([별칭2].[컬렴명])
+          from [테이블명] [별칭2]
+         where [별칭2].[컬럼명] <= [별칭1].[컬럼명]) as [출력컬렴]
+  from [테이블명] [별칭2];
 
 *self join(내림차순으로 정렬)
-select [별칭1].[컬럼명], sum([별칭2].[컬럼명]) as [출력컬럼]
-from [테이블명] [별칭1], [테이블명] [별칭2]
-where [별칭1].[컬렴명] >= [별칭2].[컬럼명]
-group by [별칭1].[컬럼명];
-
+select [별칭1].[컬럼명]
+      ,sum([별칭2].[컬럼명]) as [출력컬럼]
+  from [테이블명] [별칭1]
+      ,[테이블명] [별칭2]
+ where [별칭1].[컬렴명] >= [별칭2].[컬럼명]
+ group by [별칭1].[컬럼명];
 [order by [별칭1] asc;]
-
 $마지막 문장 추가로 입력시에는 오름차순(1~N)으로 정렬됨$
 
-​
-
 - 누계 합계 후 열 합치기
-select [컬럼명] from [테이블명]
-union all
-select (select sum([별칭2].[컬럼명]) from [테이블명] [별칭2] where [별칭2].[컬럼명] <= [별칭1].[컬럼명]) as [출력컬럼]
-from [테이블명] [별칭1];
+select [컬럼명]
+  from [테이블명]
+ union all
+select (select sum([별칭2].[컬럼명])
+          from [테이블명] [별칭2]
+         where [별칭2].[컬럼명] <= [별칭1].[컬럼명]) as [출력컬럼]
+  from [테이블명] [별칭1];
