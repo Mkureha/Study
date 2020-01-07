@@ -1,95 +1,59 @@
 - 용어 정리-
 
-
-
 트랜잭션 : COMMIT 한 부분부터 하여서 수정한 내용을 저장한 후 COMMIT으로 끝나는 부분까지의 과정
 
-
-
 * 트랜잭션의 대표 종류 
-
 COMMIT : 수정한 내용을 저장 
-
 ROLLBACK : COMMIT 이전으로 내용 복구
 
-​
-
-​COMMIT -> ALTER TABLE실행 -> INSERT INTO실행 -> COMMIT
+COMMIT -> ALTER TABLE실행 -> INSERT INTO실행 -> COMMIT
 >그대로 업데이트
 
 COMMIT -> ALTER TABLE실행 -> INSERT INTO실행 -> ROLLBACK
 >COMMIT 입력 전으로 돌아감
 
-
-
 GROUP BY : 같은 항목끼리 그룹으로 묶는 것(엑셀로 구분하면 '병합')
-
-
 
 HAVING : 그룹화한 결과 세트에 대한 WHERE 조건이다.
 
-
-
 - 입력문 순서 : WHERE -> GROUP BY -> HAVING
-
-ex) SELECT "[칼럼1]", "[칼럼2]" FROM "[칼럼3]"
-
-WHERE "[칼럼1]" = [값1]
-
-GROUP BY "[칼럼2]"
-
-HAVING MAXㅣMIN("칼럼3") >= 3
-
-
-
-[칼럼1]의 값이 [값1]인 결과 중 [칼럼3]의 값이 3 이상ㅣ이하 인 결과를 [칼럼2]로 그룹화하여 출력
-
-
-
-
+ex) SELECT "[칼럼1]"
+          ,"[칼럼2]"
+      FROM "[테이블명]"
+     WHERE "[칼럼1]" = [값1]
+     GROUP BY "[칼럼2]"
+    HAVING MAXㅣMIN("칼럼3") >= 3
+>[칼럼1]의 값이 [값1]인 결과 중 [칼럼3]의 값이 3 이상ㅣ이하 인 결과를 [칼럼2]로 그룹화하여 [테이블명]에서 [칼럼1],[칼럼2]를 출력
 
 - 수식 사용-
 
+select [칼럼]
+  from [테이블]
+ group by [칼럼]
+>테이블에서 칼럼내에서 같은 값끼리 그룹으로 묶음
 
+select [칼럼]
+      ,[count(*)]
+  from [테이블]
+ group by [칼럼];
+>테이블에서 칼럼내에 같은 값의 칼럼 수를 count(*) 칼럼을 만들어서 값 추가
 
-select [칼럼] from [테이블] group by [칼럼]
+select [칼럼]
+      ,[avg(term)]
+  from [테이블]
+ group by [칼럼];
+>테이블에서 칼럼내에 term 칼럼의 값의 평균을 avg(term) 칼럼을 만들어서 값 추가
 
+select [칼럼]
+  from [테이블]
+ group by [칼럼]
+having avg(term) = [값]
+>테이블에서 칼럼(avg(term))의 값이 [값]인 값을 출력
 
-
-테이블에서 칼럼내에서 같은 값끼리 그룹으로 묶음
-
-
-
-select [칼럼], [count(*)] from [테이블] group by [칼럼];
-
-
-
-테이블에서 칼럼내에 같은 값의 칼럼 수를 count(*) 칼럼을 만들어서 값 추가
-
-
-
-select [칼럼], [avg(term)] from [테이블] group by [칼럼];
-
-
-
-테이블에서 칼럼내에 term 칼럼의 값의 평균을 avg(term) 칼럼을 만들어서 값 추가
-
-
-
-select [칼럼] from [테이블] group by [칼럼]
-
-  having avg(term) = [값]
-
-
-
-테이블에서 칼럼(avg(term))의 값이 [값]인 값을 출력
-
-
-
-select [칼럼] from [테이블] where [조건검색칼럼]>ㅣ>=ㅣ<>ㅣ<=ㅣ< [값] group [칼럼]
-
-  having avg([칼럼]) = 20.5
-
-
-
-테이블에서 조건 검색 칼럼의 값이 작거나ㅣ작거나 같거나ㅣ아니거나ㅣ크거나 같거나ㅣ큰 값을 제외한 평균 값을 출력
+select [칼럼]
+  from [테이블]
+ where [조건검색칼럼]>ㅣ>=ㅣ<>ㅣ<=ㅣ< [값]
+ group by [칼럼]
+having avg([칼럼]) = 20.5
+;
+>테이블에서 조건 검색 칼럼의 값이 작거나ㅣ작거나 같거나ㅣ아니거나ㅣ크거나 같거나ㅣ큰 값을 제외한 평균 값을 출력
