@@ -11,6 +11,3 @@ public class TestController {
 		      return "Hello, Spring Boot!";
 	   }
 }
-
-
-입력 후 내장 웹서버 "localhost:8080"에서 내용 확인 
