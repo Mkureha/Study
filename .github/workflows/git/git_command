@@ -1,0 +1,17 @@
+git commit => 今の状態をセーブする
+
+^ => 一回Commit
+~ => 一気に何回Commit
+
+git checkout "" => ""のThreadに移動
+git checkout HEAD^'' => 現在ThreadのHEADを''くらい前に戻る
+
+git branch "" => ""の名前のbranch作る
+git branch -f "" HEAD~'' => ""の名前のThreadのHEADを''くらい前に戻る
+
+git merge "" => ""のThreadと今のThreadを合体する
+
+git cherry-pcik [] => []番号のCommitをコピーする ([]の後ろにもっと入れることできる)
+
+git rebase "" => ""のThreadと順番にする
+git rebase -i HEAD~'' => HEADから''の数分コピーして貰う
