@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div#GameBoard {
+            border: 2px solid gray;
+            border-radius: 4px;
+            width: 400px;
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    <div id="GameBoard">
+        <label>Welcome Number Baseball Game</label><br>
+        <label>IF you start game, then click the game start</label><br>
+        <img src="img/question.png" width="32" height="32">
+        <img src="img/question.png" width="32" height="32">
+        <img src="img/question.png" width="32" height="32">
+        <input id="btnstart" type="button" value="Game Start" onclick="btnGameStart()"><br><br>
+        Input Number: <input type="text" id="userinput" size="3" maxlength="3">
+        <input type="button" value="See Value" onclick="btnMatchCheck()"><br><br>
+        answer: <label id="resultout"></label>
+        <div id="game-Histroy"></div>
+    </div>
+</body>
+
+<script type="text/javascript">
+
+    var g_sArrQuizNumber = [];
+    var g_bGameRun = false;
+
+    function btnGameStart() {
+        if (!g_bGameRun) {
+            document.getElementById("btnstart").value = "Runing Game";
+            g_bGameRun = true;
+
+            makeRandomNum();
+        }
+        else {
+            if (confirm("Runing Game!\nWant End Game?")) {
+                document.getElementById("btnstart").value = "Game Start";
+                g_bGameRun = false;
+            }
+        }
+    }
+
+    document.addEventListener("keyup", function (e) {
+        if (e.code === "Enter")
+            btnMatchCheck();
+    })
+
+    function btnMatchCheck() {
+        if (g_bGameRun) {
+            var sInputValue = document.getElementById("userinput").value;
+            console.log("User Input : " + sInputValue);
+
+            if (sInputValue.length != 3) {
+                alert("Please, Input The Three Number");
+                return;
+            }
+
+            var nStrike = 0;
+            var nBall = 0;
+            for (var i = 0; i < 3; i++) {
+                if (g_sArrQuizNumber[i] == sInputValue.charAt(i))
+                    nStrike++;
+                else {
+                    for (var j = 0; j < 3; j++) {
+                        if (g_sArrQuizNumber[j] == sInputValue.charAt(i))
+                            nBall++;
+                    }
+                }
+            }
+
+            if (nStrike == 3) {
+                var sResult = "Congratulation! You Win!!";
+                document.getElementById("resultout").innerHTML = sResult;
+
+                document.getElementById("btnstart").value = "Game Start";
+                g_bGameRun = false;
+
+                for (var i = 0; i < g_sArrQuizNumber.length; i++) {
+                    g_sArrQuizNumber[i] = 0;
+                }
+            }
+            else {
+                var sResult = "Result is " + "[" + nStrike + "Strike ][ " + nBall + " Ball]";
+                document.getElementById("resultout").innerHTML = sResult;
+
+                document.getElementById("userinput").value = "";
+                document.getElementById("userinput").focus();
+            }
+        }
+        else {
+            alert("Game is Over, lease, Restart Game");
+        }
+
+        var ResultHis = document.getElementById("game-Histroy");
+        var resultDiv = document.createElement("DIV");
+        resultDiv.appendChild(document.createTextNode(sInputValue + " is [" + nStrike + "Strike ][" + nBall + " Ball]"));
+        if (!sInputValue)
+            resultDiv.classList.add("invalid");
+        ResultHis.insertBefore(resultDiv, ResultHis.firstChild);
+
+        sInputValue.value = "";
+    }
+
+    function makeRandomNum() {
+        var nCurrIdx = 0;
+        while (nCurrIdx < 3) {
+            g_sArrQuizNumber[nCurrIdx] = Math.floor(Math.random() * 10);
+
+            if (g_sArrQuizNumber[nCurrIdx] == 0) continue;
+
+            if (nCurrIdx != 0) {
+                var bEqualChk = false;
+                for (var i = 0; i < nCurrIdx; i++) {
+                    if (g_sArrQuizNumber[i] == g_sArrQuizNumber[nCurrIdx]) {
+                        bEqualChk = true;
+                        break;
+                    }
+                }
+
+                if (!bEqualChk)
+                    nCurrIdx++;
+            }
+            else {
+                nCurrIdx++;
+            }
+        }
+
+        console.log("Random Number :" + "[" + g_sArrQuizNumber[0] + "]" + "[" + g_sArrQuizNumber[1] + "]" + "[" + g_sArrQuizNumber[2] + "]")
+    }
+</script>
+
+</html>
