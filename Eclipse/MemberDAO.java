@@ -69,14 +69,14 @@ public class MemberDAO
              * 이용해야 한다.
              */
             pstmt = conn.prepareStatement(sql.toString());
-            pstmt.setString(1, member.getid());
-            pstmt.setString(2, member.getPassword());
+            pstmt.setString(1, member.getId());
+            pstmt.setString(2, member.getPw());
             pstmt.setString(3, member.getName());
             pstmt.setString(4, member.getGender());
             pstmt.setDate(5, stringToDate(member));
             pstmt.setString(6, member.getMail1()+"@"+member.getMail2());
-            pstmt.setString(7, member.getPhone());
-            pstmt.setString(8, member.getAddress());
+            pstmt.setString(7, member.gettel());
+            pstmt.setString(8, member.getAddr());
             
             // 쿼리 실행
             pstmt.executeUpdate();
